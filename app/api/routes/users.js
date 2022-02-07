@@ -11,7 +11,7 @@ import User from '../models/user.js'
 
 //AUTH
 
-router.get("/login", async (req,res) =>{    
+router.post("/login", async (req,res) =>{    
     const email = req.body.email;
     const password = req.body.password;
 

@@ -51,7 +51,7 @@
                 <h4 class="card-title">Dispositivos</h4>
             </div>
 
-            <el-table :data="devices">
+            <el-table :data="$store.state.devices">
 
                 <el-table-column prop="name" label="Nombre"></el-table-column>
                 <el-table-column prop="dId" label="Id del dispositivo"></el-table-column>
@@ -88,7 +88,7 @@
             </card>
         </div>
 
-       <json :value="devices"></json>
+       <json :value="$store.state.devices"></json>
            
 
     </div>
@@ -100,7 +100,8 @@ import { Table, TableColumn } from "element-ui";
 import { Select, Option } from "element-ui";
 
 
-export default{
+export default {
+    middleware: 'authenticated',
     components:{
         [Table.name]: Table,
         [TableColumn.name]:TableColumn,
@@ -109,33 +110,15 @@ export default{
     },
     data(){
         return{
-            devices: [
-                {
-                    name: "Casa",
-                    dId: "1010",
-                    templateName: "Sensor de poder",
-                    templateId: "fhrf-5124",
-                    saverRule:false
-                },
-                {
-                    name: "Invernadero",
-                    dId: "1010",
-                    templateName: "Sensor de poder",
-                    templateId: "fhrf-5124",
-                    saverRule:false
-                },
-                {
-                    name: "Granja",
-                    dId: "1010",
-                    templateName: "Sensor de poder",
-                    templateId: "fhrf-5124",
-                    saverRule:true
-                }
-
-            ]
+            //
         };
     },
-    methods:{
+    mounted(){
+      this.$store.dispatch("getDevices");  
+    },
+
+    methods: {
+        
         deleteDevice(device){
             alert("Borrando "+ device.name)
         },
