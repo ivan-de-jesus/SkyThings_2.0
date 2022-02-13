@@ -23,6 +23,8 @@ app.use(cors());
 //express routes
  app.use("/api1", require("./routes/devices.js"));
  app.use("/api1", require("./routes/users.js"));
+ app.use("/api1", require("./routes/templates.js"));
+
 
 module.exports = app;
 

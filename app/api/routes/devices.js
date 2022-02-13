@@ -72,7 +72,7 @@ router.delete("/device", checkAuth, async function(req, res){
     data: result
   };
 
-  return res.status(500).json(toSend);
+  return res.json(toSend);
 
   } catch (error) {
       console.log("ERROR DELETING DEVICE");
@@ -99,7 +99,7 @@ router.put("/device", checkAuth, (req, res) => {
       return res.json(toSend);
    }else{
       const toSend = {
-        status: "success",
+        status: "error",
      };
     return res.json(toSend);
    }

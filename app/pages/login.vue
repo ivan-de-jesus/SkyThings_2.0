@@ -1,10 +1,12 @@
 <template>
   <div class="container login-page">
     <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+     <div>
+  <Particlescomponent />
+  </div>
       <card class="card-login card-white">
         <template slot="header">
-          <img src="img//card-primary.png" alt="" />
-          <h1 class="card-title">Sky Things</h1>
+          <img src="img//logo1.0.png" alt="" />
         </template>
 
         <div>
@@ -57,12 +59,24 @@
 </template>
 
 <script>
+
+  
+ // import(/*webpackChunkName: "Particlescomponent"*/ "@/components/Particlescomponent");
+  import Particlescomponent from "@/components/Particlescomponent.vue";
+
+
 const Cookie = process.client ? require("js-cookie") : undefined;
 
 export default {
   middleware: 'notAuthenticated',
   name: "login-page",
   layout: "auth",
+
+  components: {
+    Particlescomponent
+  
+  },
+
   data() {
     return {
       user: {
@@ -137,4 +151,6 @@ export default {
   line-height: inherit;
   margin-left: 5px;
 }
+
+
 </style>

@@ -585,8 +585,8 @@
       </div>
     </div>
 
-    <!-- SAVE TEMPLATE-->
-    <div class="row">
+    <!-- SAVE TEMPLATE FORM-->
+    <div class="row" v-if="widgets.length > 0">
       <card>
         <div slot="header">
           <h4 class="card-title">Save Template</h4>
@@ -693,6 +693,7 @@ import { Table, TableColumn } from "element-ui";
 import { Select, Option } from "element-ui";
 
 export default {
+  middleware: "authenticated",
   components: {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
@@ -805,8 +806,102 @@ export default {
     };
   },
 
+  mounted(){
+    this.getTemplates();
+  },
+
   methods: {
-   addNewWidget() {
+
+    async getTemplates(){
+       const axiosHeaders = {
+        headers:{
+          token: this.$store.state.auth.token
+        },
+       }
+        try {
+        const res = await this.$axios.get("/template", axiosHeaders);
+        console.log(res.data)
+        if(res.data.status == "success"){
+          this.templates = res.data.data
+          console.log("Lista de templates", this.templates)
+        }
+      } catch (error){
+         this.$notify({
+              type: "danger",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: "Error al cargar las plantillas" 
+          });
+          console.log(error);
+          return;
+      }
+    },
+
+    async saveTemplate(){
+
+      const axiosHeaders = {
+        headers:{
+          token: this.$store.state.auth.token
+        },
+      };
+      const toSend = {
+        template:{
+          name: this.templateName,
+          description: this.templateDescription,
+          widgets: this.widgets
+        }
+      }
+      
+      try {
+        const res = await this.$axios.post("/template", toSend, axiosHeaders);
+        if(res.data.status == "success"){
+          this.$notify({
+              type: "success",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: "Plantilla agregada correctamente" 
+          });
+          this.getTemplates();
+        }
+      } catch (error){
+         this.$notify({
+              type: "danger",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: "Error al crear la plantilla" 
+          });
+      }
+
+    },
+
+    async deleteTemplate(template){
+       const axiosHeaders = {
+        headers:{
+          token: this.$store.state.auth.token
+        },
+        params:{
+          templateId: template._id
+        }
+       };
+
+        try {
+        const res = await this.$axios.delete("/template", axiosHeaders);
+        if(res.data.status == "success"){
+          this.$notify({
+              type: "success",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: "Plantilla " + template.name + " eliminada correctamente" 
+          });
+          this.getTemplates();
+        }
+      } catch (error){
+         this.$notify({
+              type: "danger",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: "Error al eliminar la plantilla" 
+          });
+      }
+
+    },
+
+    addNewWidget() {
       if (this.widgetType == "numberchart") {
         this.ncConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.ncConfig)));
@@ -824,6 +919,7 @@ export default {
         this.widgets.push(JSON.parse(JSON.stringify(this.configIndicator)));
       }
     },
+
     deleteWidget(index){
         this.widgets.splice(index,1);
     },

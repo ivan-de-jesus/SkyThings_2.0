@@ -25,6 +25,7 @@ import BasePagination from './BasePagination.vue';
 
 import SidebarPlugin from './SidebarPlugin';
 
+import Particlescomponent from './Particlescomponent.vue';
 
 export {
   BaseCheckbox,
@@ -47,5 +48,6 @@ export {
   RouteBreadCrumb,
   Modal,
   BaseButton,
-  LoadingPanel
+  LoadingPanel,
+  Particlescomponent
 };

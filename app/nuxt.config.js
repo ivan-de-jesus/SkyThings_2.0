@@ -39,6 +39,9 @@ export default {
   */
   plugins: [
     `~/plugins/dashboard-plugin.js`,
+     //{ src: '~/plugins/vue-scroll-indicator', ssr: false },
+    // { src: '@/plugins/particles', ssr: false }
+    {src:"~plugins/particle.js",ssr:false}
   ],
   //autoimport
   components: true,
