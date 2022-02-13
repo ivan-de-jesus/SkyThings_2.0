@@ -24,6 +24,7 @@ app.use(cors());
  app.use("/api1", require("./routes/devices.js"));
  app.use("/api1", require("./routes/users.js"));
  app.use("/api1", require("./routes/templates.js"));
+ app.use("/api1", require("./routes/webhooks.js"));
 
 
 module.exports = app;
